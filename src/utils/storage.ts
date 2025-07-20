@@ -110,13 +110,13 @@ export const userProfileStorage = {
 
   load: (): UserProfile | null => {
     const data = storage.get(STORAGE_KEYS.USER_PROFILE, null);
-    if (!data) return null;
-    
+    if (!data || typeof data !== 'object') return null;
+
     // 移除时间戳字段
-    const { updatedAt, ...profile } = data;
+    const { updatedAt, ...profile } = data as Record<string, unknown>;
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const _ = updatedAt;
-    return profile as UserProfile;
+    return profile as unknown as UserProfile;
   },
 
   clear: (): boolean => {
@@ -146,7 +146,7 @@ export const styleStorage = {
 // 生成的卡片历史存储
 export const cardHistoryStorage = {
   save: (card: CardData): boolean => {
-    const history = this.loadAll();
+    const history = cardHistoryStorage.loadAll();
     const newHistory = [card, ...history.slice(0, 9)]; // 最多保存10张
     return storage.set(STORAGE_KEYS.GENERATED_CARDS, newHistory);
   },
@@ -156,7 +156,7 @@ export const cardHistoryStorage = {
   },
 
   loadLatest: (): CardData | null => {
-    const history = this.loadAll();
+    const history = cardHistoryStorage.loadAll();
     return history.length > 0 ? history[0] : null;
   },
 
@@ -165,20 +165,20 @@ export const cardHistoryStorage = {
   },
 
   remove: (timestamp: string): boolean => {
-    const history = this.loadAll();
+    const history = cardHistoryStorage.loadAll();
     const filtered = history.filter(card => card.timestamp !== timestamp);
     return storage.set(STORAGE_KEYS.GENERATED_CARDS, filtered);
   },
 
   count: (): number => {
-    return this.loadAll().length;
+    return cardHistoryStorage.loadAll().length;
   },
 };
 
 // 应用设置存储
 export const settingsStorage = {
   save: (settings: Partial<AppSettings>): boolean => {
-    const current = this.load();
+    const current = settingsStorage.load();
     const updated = { ...current, ...settings };
     return storage.set(STORAGE_KEYS.APP_SETTINGS, updated);
   },
@@ -273,7 +273,7 @@ export const useAutoSave = () => {
 // 存储事件监听
 export const addStorageListener = (callback: (key: string, newValue: unknown) => void) => {
   const handleStorageChange = (e: StorageEvent) => {
-    if (e.key && Object.values(STORAGE_KEYS).includes(e.key as string)) {
+    if (e.key && (Object.values(STORAGE_KEYS) as string[]).includes(e.key)) {
       try {
         const newValue = e.newValue ? JSON.parse(e.newValue) : null;
         callback(e.key, newValue);

@@ -90,7 +90,9 @@ export const useGenerate = (): UseGenerateReturn => {
     // 限制缓存大小
     if (cacheRef.current.size > 20) {
       const firstKey = cacheRef.current.keys().next().value;
-      cacheRef.current.delete(firstKey);
+      if (firstKey) {
+        cacheRef.current.delete(firstKey);
+      }
     }
   }, [getCacheKey]);
 

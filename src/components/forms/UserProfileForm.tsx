@@ -23,10 +23,10 @@ const UserProfileForm: React.FC<UserProfileFormProps> = ({
 }) => {
   // 自定义专业状态
   const [isCustomMajor, setIsCustomMajor] = useState(
-    initialData?.major && !MAJOR_OPTIONS.includes(initialData.major)
+    initialData?.major && !(MAJOR_OPTIONS as readonly string[]).includes(initialData.major)
   );
   const [customMajorValue, setCustomMajorValue] = useState(
-    initialData?.major && !MAJOR_OPTIONS.includes(initialData.major)
+    initialData?.major && !(MAJOR_OPTIONS as readonly string[]).includes(initialData.major)
       ? initialData.major
       : ''
   );

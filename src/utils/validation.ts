@@ -14,9 +14,8 @@ export const userProfileSchema = z.object({
     .min(1, '请选择专业'),
   
   grade: z
-    .enum(['大一', '大二', '大三', '大四'], {
-      errorMap: () => ({ message: '请选择年级' })
-    }),
+    .enum(['大一', '大二', '大三', '大四'])
+    .refine((val) => val, { message: '请选择年级' }),
   
   // 可选字段
   hometown: z
@@ -46,9 +45,9 @@ export const userProfileSchema = z.object({
 });
 
 // 卡片风格验证
-export const cardStyleSchema = z.enum(['funny', 'literary', 'academic', 'cool'], {
-  errorMap: () => ({ message: '请选择卡片风格' })
-});
+export const cardStyleSchema = z
+  .enum(['funny', 'literary', 'academic', 'cool'])
+  .refine((val) => val, { message: '请选择卡片风格' });
 
 // AI生成请求验证
 export const generateRequestSchema = z.object({
@@ -79,14 +78,14 @@ export const fieldValidators = {
       .regex(/^[a-zA-Z0-9\u4e00-\u9fa5_-]+$/, '昵称只能包含中英文、数字、下划线和横线')
       .safeParse(value);
     
-    return result.success ? true : result.error.errors[0].message;
+    return result.success ? true : result.error.issues[0].message;
   },
-  
+
   major: (value: string) => {
     const result = z.string().min(1, '请选择专业').safeParse(value);
-    return result.success ? true : result.error.errors[0].message;
+    return result.success ? true : result.error.issues[0].message;
   },
-  
+
   grade: (value: string) => {
     const result = z.enum(['大一', '大二', '大三', '大四']).safeParse(value);
     return result.success ? true : '请选择年级';
@@ -95,18 +94,18 @@ export const fieldValidators = {
   hometown: (value: string) => {
     if (!value) return true; // 可选字段
     const result = z.string().max(50, '家乡不能超过50个字符').safeParse(value);
-    return result.success ? true : result.error.errors[0].message;
+    return result.success ? true : result.error.issues[0].message;
   },
-  
+
   skills: (value: string) => {
     if (!value) return true; // 可选字段
     const result = z.string().max(100, '特殊技能描述不能超过100个字符').safeParse(value);
-    return result.success ? true : result.error.errors[0].message;
+    return result.success ? true : result.error.issues[0].message;
   },
-  
+
   socialGoals: (value: string) => {
     if (!value) return true; // 可选字段
     const result = z.string().max(100, '交友目标不能超过100个字符').safeParse(value);
-    return result.success ? true : result.error.errors[0].message;
+    return result.success ? true : result.error.issues[0].message;
   }
 };

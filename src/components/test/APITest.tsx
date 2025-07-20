@@ -59,7 +59,7 @@ const APITest: React.FC = () => {
           <Select
             label="年级"
             value={testProfile.grade}
-            onChange={(e) => setTestProfile(prev => ({ ...prev, grade: e.target.value as 'freshman' | 'sophomore' | 'junior' | 'senior' }))}
+            onChange={(e) => setTestProfile(prev => ({ ...prev, grade: e.target.value as '大一' | '大二' | '大三' | '大四' }))}
             options={[
               { value: '大一', label: '大一' },
               { value: '大二', label: '大二' },

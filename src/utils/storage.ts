@@ -113,7 +113,7 @@ export const userProfileStorage = {
     if (!data) return null;
     
     // 移除时间戳字段
-    const { updatedAt, ...profile } = data;
+    const { updatedAt: _updatedAt, ...profile } = data;
     return profile as UserProfile;
   },
 
@@ -269,9 +269,9 @@ export const useAutoSave = () => {
 };
 
 // 存储事件监听
-export const addStorageListener = (callback: (key: string, newValue: any) => void) => {
+export const addStorageListener = (callback: (key: string, newValue: unknown) => void) => {
   const handleStorageChange = (e: StorageEvent) => {
-    if (e.key && Object.values(STORAGE_KEYS).includes(e.key as any)) {
+    if (e.key && Object.values(STORAGE_KEYS).includes(e.key as string)) {
       try {
         const newValue = e.newValue ? JSON.parse(e.newValue) : null;
         callback(e.key, newValue);

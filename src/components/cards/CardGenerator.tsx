@@ -3,7 +3,7 @@
 import React, { useRef, useCallback, useState } from 'react';
 import html2canvas from 'html2canvas';
 import { UserProfile, CardStyle } from '@/types/user';
-import { CARD_STYLES, CARD_DIMENSIONS, LAYOUT_CONFIG, BRAND_CONFIG } from '@/constants/cardDesign';
+import { CARD_STYLES, CARD_DIMENSIONS, BRAND_CONFIG } from '@/constants/cardDesign';
 import Button from '@/components/ui/Button';
 
 interface CardGeneratorProps {

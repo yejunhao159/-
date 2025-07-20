@@ -14,7 +14,7 @@ export interface UserProfile {
 }
 
 // 表单验证Schema类型
-export interface FormData extends UserProfile {}
+export type FormData = UserProfile;
 
 // 卡片风格类型
 export type CardStyle = 'funny' | 'literary' | 'academic' | 'cool';

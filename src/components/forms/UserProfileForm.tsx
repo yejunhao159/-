@@ -23,10 +23,10 @@ const UserProfileForm: React.FC<UserProfileFormProps> = ({
 }) => {
   // 自定义专业状态
   const [isCustomMajor, setIsCustomMajor] = useState(
-    initialData?.major && !MAJOR_OPTIONS.includes(initialData.major as any)
+    initialData?.major && !MAJOR_OPTIONS.includes(initialData.major)
   );
   const [customMajorValue, setCustomMajorValue] = useState(
-    initialData?.major && !MAJOR_OPTIONS.includes(initialData.major as any)
+    initialData?.major && !MAJOR_OPTIONS.includes(initialData.major)
       ? initialData.major
       : ''
   );
@@ -170,7 +170,7 @@ const UserProfileForm: React.FC<UserProfileFormProps> = ({
                   <Controller
                     name="major"
                     control={control}
-                    render={({ field }) => (
+                    render={() => (
                       <Input
                         value={customMajorValue}
                         onChange={(e) => {
@@ -346,7 +346,7 @@ function getFormCompleteness(data: Partial<FormData>): number {
   const optionalFields = ['hometown', 'interests', 'personality', 'skills', 'socialGoals'];
   
   let completed = 0;
-  let total = requiredFields.length + optionalFields.length;
+  const total = requiredFields.length + optionalFields.length;
   
   // 必填字段
   requiredFields.forEach(field => {

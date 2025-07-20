@@ -2,11 +2,18 @@
 
 import React, { useState } from 'react';
 import { CardStyle } from '@/types/user';
-import { FormData } from '@/utils/validation';
 import Button from '@/components/ui/Button';
 
+interface TestResult {
+  name: string;
+  success: boolean;
+  content?: string;
+  error?: string;
+  duration: number;
+}
+
 const TestPage: React.FC = () => {
-  const [testResults, setTestResults] = useState<any[]>([]);
+  const [testResults, setTestResults] = useState<TestResult[]>([]);
   const [isRunning, setIsRunning] = useState(false);
 
   const testCases = [
@@ -76,7 +83,7 @@ const TestPage: React.FC = () => {
     }
   ];
 
-  const runSingleTest = async (testCase: any) => {
+  const runSingleTest = async (testCase: typeof testCases[0]) => {
     try {
       const startTime = Date.now();
       const response = await fetch('/api/generate-mock', {

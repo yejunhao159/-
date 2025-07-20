@@ -1,5 +1,4 @@
 import { z } from 'zod';
-import { MAJOR_OPTIONS } from '@/types/user';
 
 // 用户表单验证Schema
 export const userProfileSchema = z.object({

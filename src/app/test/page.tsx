@@ -101,17 +101,16 @@ const TestPage: React.FC = () => {
       return {
         name: testCase.name,
         success: response.ok && result.success,
-        responseTime,
-        text: result.text,
-        error: result.error,
-        mock: result.mock
+        duration: responseTime,
+        content: result.text,
+        error: result.error
       };
     } catch (error) {
       return {
         name: testCase.name,
         success: false,
         error: error instanceof Error ? error.message : '未知错误',
-        responseTime: 0
+        duration: 0
       };
     }
   };
@@ -198,8 +197,7 @@ const TestPage: React.FC = () => {
                 {result.success ? '✅' : '❌'} {result.name}
               </h3>
               <div className="flex gap-4 text-sm text-gray-600">
-                <span>⏱️ {result.responseTime}ms</span>
-                {result.mock && <span>🤖 Mock</span>}
+                <span>⏱️ {result.duration}ms</span>
               </div>
             </div>
 
@@ -208,11 +206,11 @@ const TestPage: React.FC = () => {
                 <div>
                   <span className="text-sm font-medium text-gray-700">生成文案:</span>
                   <div className="mt-1 p-3 bg-green-50 border border-green-200 rounded text-gray-800">
-                    {result.text}
+                    {result.content}
                   </div>
                 </div>
                 <div className="text-sm text-gray-600">
-                  文案长度: {result.text?.length || 0} 字符
+                  文案长度: {result.content?.length || 0} 字符
                 </div>
               </div>
             ) : (

@@ -113,7 +113,9 @@ export const userProfileStorage = {
     if (!data) return null;
     
     // 移除时间戳字段
-    const { updatedAt: _updatedAt, ...profile } = data;
+    const { updatedAt, ...profile } = data;
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const _ = updatedAt;
     return profile as UserProfile;
   },
 

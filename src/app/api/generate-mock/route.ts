@@ -47,10 +47,10 @@ export async function POST(request: NextRequest) {
     const validation = validateGenerateRequest(body);
     if (!validation.success) {
       return NextResponse.json(
-        { 
-          success: false, 
+        {
+          success: false,
           error: '请求数据格式错误',
-          details: validation.error.errors 
+          details: validation.error.issues
         },
         { status: 400 }
       );
